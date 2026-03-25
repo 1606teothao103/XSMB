@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gương Thần Song Thủ</title>
+    <title>THẦN TÀI SỐ</title>
     <style>
         body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
         .container { text-align: center; width: 100%; max-width: 450px; padding: 20px; }
@@ -32,7 +32,7 @@
 <body>
 
     <div id="input-area" class="container">
-        <h2>MÁY QUÉT SONG THỦ</h2>
+        <h2>THẦN TÀI TÌM SỐ</h2>
         <input type="number" id="gdb" placeholder="Giải Đặc Biệt (5-6 số)">
         <input type="number" id="g1" placeholder="Giải Nhất (5 số)">
         <br><br>
@@ -40,7 +40,7 @@
     </div>
 
     <div id="magic-area" class="container">
-        <div id="matrix-text">INITIALIZING...</div>
+        <div id="matrix-text">BẮT ĐẦU GỌI THẦN TÀI...</div>
         <div class="sphere-wrapper">
             <div class="magic-sphere"></div>
         </div>
@@ -56,7 +56,7 @@
             </div>
         </div>
         
-        <p id="status-text" style="margin-top: 30px; font-size: 0.8rem; color: #444;">ĐANG PHÂN TÍCH DỮ LIỆU KÉP...</p>
+        <p id="status-text" style="margin-top: 30px; font-size: 0.8rem; color: #444;">ĐANG TÌM SỐ MAY MẮN</p>
     </div>
 
     <script>
@@ -89,19 +89,19 @@
             const status = document.getElementById('status-text');
 
             // Hiệu ứng chạy chữ Matrix
-            const modes = ["SCANNING GĐB...", "SCANNING G1...", "CALCULATING PASCAL...", "HARMONIZING ENERGY..."];
+            const modes = ["THIÊN LINH LINH...", "ĐỊA LINH LINH...", "THẦN TÀI GÕ CỬA...", "SỐ ĐỀ HIỆN RA..."];
             for (let m of modes) {
                 matrix.innerText = m;
                 await new Promise(r => setTimeout(r, 800));
             }
 
             // Tính toán 2 kết quả
-            const r1 = calculatePascal(gdb + g1);
-            const r2 = calculatePascal(g1 + gdb);
+            const r1 = calculatePascal;
+            const r2 = calculatePascal;
 
             // Hiện kết quả
             document.querySelector('.sphere-wrapper').style.opacity = '0.3';
-            status.innerText = "HOÀN TẤT GIẢI MÃ";
+            status.innerText = "CẶP SỐ MAY MẮN HÔM NAY";
             status.style.color = "#0f0";
 
             resBox.style.display = 'flex';
