@@ -3,50 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gương Thần Dự Đoán</title>
+    <title>Gương Thần Song Thủ</title>
     <style>
-        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow-x: hidden; }
+        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .container { text-align: center; width: 100%; max-width: 450px; padding: 20px; }
         
-        .container { text-align: center; transition: all 0.5s; width: 100%; max-width: 400px; padding: 20px; }
-        
-        /* Giao diện nhập liệu */
-        h2 { text-shadow: 0 0 10px #0f0; margin-bottom: 25px; }
-        input { background: #111; border: 1px solid #0f0; color: #0f0; padding: 15px; width: 80%; text-align: center; font-size: 1.5rem; outline: none; border-radius: 10px; margin-bottom: 15px; box-shadow: inset 0 0 5px #0f0; }
-        button { background: #0f0; color: #000; border: none; padding: 18px 40px; font-size: 1.2rem; font-weight: bold; cursor: pointer; border-radius: 50px; transition: 0.4s; text-transform: uppercase; box-shadow: 0 0 15px #0f0; width: 85%; }
-        button:hover { background: #fff; box-shadow: 0 0 30px #0f0; transform: scale(1.05); }
+        /* Nhập liệu */
+        h2 { text-shadow: 0 0 10px #0f0; margin-bottom: 25px; letter-spacing: 2px; }
+        input { background: #111; border: 1px solid #0f0; color: #0f0; padding: 15px; width: 85%; text-align: center; font-size: 1.5rem; outline: none; border-radius: 10px; margin-bottom: 15px; }
+        button { background: #0f0; color: #000; border: none; padding: 20px; font-size: 1.2rem; font-weight: bold; cursor: pointer; border-radius: 50px; width: 90%; box-shadow: 0 0 15px #0f0; text-transform: uppercase; }
 
-        /* Hiệu ứng Quả Cầu */
-        #magic-area { display: none; flex-direction: column; align-items: center; }
-        .sphere-wrapper { position: relative; width: 200px; height: 200px; margin: 30px 0; }
-        .magic-sphere { width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff, #70f 30%, #10a 60%, #000 100%); box-shadow: 0 0 60px 20px #70f; animation: rotate 4s linear infinite, float 3s ease-in-out infinite; }
+        /* Quả cầu */
+        #magic-area { display: none; flex-direction: column; align-items: center; width: 100%; }
+        .sphere-wrapper { position: relative; width: 180px; height: 180px; margin: 20px 0; }
+        .magic-sphere { width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff, #70f 30%, #10a 60%, #000 100%); box-shadow: 0 0 60px 15px #70f; animation: rotate 4s linear infinite, float 3s ease-in-out infinite; }
         
-        /* Số nhảy Matrix */
-        #matrix-numbers { font-size: 2.5rem; letter-spacing: 8px; margin-bottom: 20px; height: 1.2em; }
-
-        /* Kết quả cuối */
-        #final-result { font-size: 7rem; font-weight: bold; color: #fff; text-shadow: 0 0 20px #f00, 0 0 40px #ff0; display: none; transform: scale(0.5); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        /* Hiển thị kết quả */
+        .result-container { display: none; justify-content: space-around; width: 100%; margin-top: 20px; opacity: 0; transition: opacity 1s; }
+        .result-item { text-align: center; flex: 1; }
+        .result-label { font-size: 0.7rem; color: #aaa; margin-bottom: 10px; }
+        .final-number { font-size: 5.5rem; font-weight: bold; color: #fff; text-shadow: 0 0 20px #f00, 0 0 40px #ff0; }
 
         @keyframes rotate { 100% { transform: rotate(360deg); } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        #matrix-text { font-size: 1.2rem; height: 1.5em; margin-bottom: 10px; color: #0f0; }
     </style>
 </head>
 <body>
 
     <div id="input-area" class="container">
-        <h2>MÁY QUÉT DỮ LIỆU</h2>
-        <input type="number" id="gdb" placeholder="Giải Đặc Biệt" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
-        <input type="number" id="g1" placeholder="Giải Nhất" oninput="if(this.value.length > 5) this.value = this.value.slice(0,5);">
+        <h2>MÁY QUÉT SONG THỦ</h2>
+        <input type="number" id="gdb" placeholder="Giải Đặc Biệt (5-6 số)">
+        <input type="number" id="g1" placeholder="Giải Nhất (5 số)">
         <br><br>
-        <button onclick="startMagic()">LẤY SỐ MAY MẮN</button>
+        <button onclick="startMagic()">LẤY CẶP SỐ MAY MẮN</button>
     </div>
 
     <div id="magic-area" class="container">
-        <div id="matrix-numbers">0000000000</div>
+        <div id="matrix-text">INITIALIZING...</div>
         <div class="sphere-wrapper">
             <div class="magic-sphere"></div>
         </div>
-        <div id="final-result">--</div>
-        <p id="status-text" style="letter-spacing: 3px; font-size: 0.8rem; color: #555;">ĐANG GIẢI MÃ PHƯƠNG TRÌNH...</p>
+        
+        <div class="result-container" id="res-box">
+            <div class="result-item">
+                <div class="result-label">CÁCH 1 (GĐB + G1)</div>
+                <div class="final-number" id="num1">--</div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">CÁCH 2 (G1 + GĐB)</div>
+                <div class="final-number" id="num2">--</div>
+            </div>
+        </div>
+        
+        <p id="status-text" style="margin-top: 30px; font-size: 0.8rem; color: #444;">ĐANG PHÂN TÍCH DỮ LIỆU KÉP...</p>
     </div>
 
     <script>
@@ -65,51 +75,41 @@
         async function startMagic() {
             const gdb = document.getElementById('gdb').value;
             const g1 = document.getElementById('g1').value;
-            const combined = gdb + g1;
 
-            if (combined.length < 10) {
-                alert("Vui lòng nhập đủ số Giải đặc biệt và Giải nhất!");
+            if (gdb.length < 5 || g1.length < 5) {
+                alert("Vui lòng nhập đủ số cho cả 2 giải!");
                 return;
             }
 
-            // Ẩn phần nhập, hiện phần quả cầu
             document.getElementById('input-area').style.display = 'none';
             document.getElementById('magic-area').style.display = 'flex';
 
-            const matrix = document.getElementById('matrix-numbers');
-            const final = document.getElementById('final-result');
+            const matrix = document.getElementById('matrix-text');
+            const resBox = document.getElementById('res-box');
             const status = document.getElementById('status-text');
 
-            // 1. Hiệu ứng số nhảy Matrix (2 giây)
-            for (let i = 0; i < 30; i++) {
-                matrix.innerText = Math.random().toString().slice(2, 12);
-                await new Promise(r => setTimeout(r, 70));
+            // Hiệu ứng chạy chữ Matrix
+            const modes = ["SCANNING GĐB...", "SCANNING G1...", "CALCULATING PASCAL...", "HARMONIZING ENERGY..."];
+            for (let m of modes) {
+                matrix.innerText = m;
+                await new Promise(r => setTimeout(r, 800));
             }
-            matrix.innerText = combined;
-            matrix.style.color = "#fff";
 
-            // 2. Chờ quả cầu "hấp thụ" năng lượng (3 giây)
-            await new Promise(r => setTimeout(r, 3000));
+            // Tính toán 2 kết quả
+            const r1 = calculatePascal(gdb + g1);
+            const r2 = calculatePascal(g1 + gdb);
 
-            // 3. Hiện kết quả cuối cùng
-            const result = calculatePascal(combined);
-            matrix.style.opacity = '0';
-            document.querySelector('.sphere-wrapper').style.opacity = '0';
-            
+            // Hiện kết quả
+            document.querySelector('.sphere-wrapper').style.opacity = '0.3';
+            status.innerText = "HOÀN TẤT GIẢI MÃ";
+            status.style.color = "#0f0";
+
+            resBox.style.display = 'flex';
             setTimeout(() => {
-                document.querySelector('.sphere-wrapper').style.display = 'none';
-                matrix.style.display = 'none';
-                
-                final.innerText = result;
-                final.style.display = 'block';
-                status.innerText = "KẾT QUẢ ĐÃ ĐƯỢC CHỐT";
-                status.style.color = "#f00";
-                
-                setTimeout(() => {
-                    final.style.opacity = '1';
-                    final.style.transform = 'scale(1)';
-                }, 50);
-            }, 500);
+                resBox.style.opacity = '1';
+                document.getElementById('num1').innerText = r1;
+                document.getElementById('num2').innerText = r2;
+            }, 100);
         }
     </script>
 </body>
